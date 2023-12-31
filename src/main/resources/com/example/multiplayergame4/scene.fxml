@@ -45,4 +45,15 @@
             </font>
         </Label>
     </children>
+
+    <VBox alignment="BOTTOM_CENTER" spacing="10">
+
+        <TextField fx:id="chatInput" onAction="#sendChatMessage" promptText="Type a message..."/>
+
+        <ListView fx:id="chatMessages" prefHeight="200" prefWidth="400" VBox.vgrow="ALWAYS"/>
+    </VBox>
+
+
+
+
 </AnchorPane>

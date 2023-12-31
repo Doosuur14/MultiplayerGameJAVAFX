@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -41,6 +43,15 @@ public class Game implements Initializable {
 
     @FXML
     private Label scores;
+
+
+    @FXML
+    private TextField chatInput;
+
+    @FXML
+    private ListView<String> chatMessages;
+
+
 
     private Player me, opponent;
     private double oX, oY;
@@ -128,6 +139,16 @@ public class Game implements Initializable {
         }
     }
 
+
+    public void sendChatMessage() {
+        String message = chatInput.getText().trim();
+        if (!message.isEmpty()) {
+            writeToServer.sendMessage(message);
+            chatInput.clear();
+        }
+    }
+
+
     private class WriteToServer implements Runnable {
 
         private DataOutputStream dataOutputStream;
@@ -156,6 +177,16 @@ public class Game implements Initializable {
                 System.out.println("IOException From WTS run()");
             }
         }
+
+        public void sendMessage(String message) {
+            try {
+                chatOutputStream.writeUTF(message);
+                chatOutputStream.flush();
+            } catch (IOException e) {
+                System.out.println("IOException from WriteToServer sendMessage()");
+            }
+        }
+
     }
 
     public void connectToServer() {
